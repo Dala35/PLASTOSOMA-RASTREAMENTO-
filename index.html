@@ -61,8 +61,71 @@
     </div>
 
   </section>
+<section class="p-10">
+
+  <h2 class="text-3xl font-semibold text-center">Rastreamento de Embalagens</h2>
+
+  <div class="mt-8 flex justify-center">
+
+    <input type="text" id="qrCodeInput" placeholder="Escaneie o QR Code" class="p-2 border rounded-md">
+
+    <button id="rastearBtn" class="ml-4 bg-blue-600 text-white p-2 rounded-md">Rastrear</button>
+
+  </div>
+
+  <div id="resultado" class="mt-8 hidden">
+
+    <h3 class="text-xl">Resultado do Rastreamento:</h3>
+
+    <ul>
+
+      <li><strong>Tipo de Plástico:</strong> <span id="tipoPlastico"></span></li>
+
+      <li><strong>Impacto Ambiental:</strong> <span id="impactoAmbiental"></span></li>
+
+      <li><strong>Recomendação:</strong> <span id="recomendacao"></span></li>
+
+    </ul>
+
+  </div>
+
+</section>
 
 
+
+<script>
+
+  document.getElementById('rastearBtn').addEventListener('click', function() {
+
+    var qrCode = document.getElementById('qrCodeInput').value;
+
+
+
+    // Requisição para o backend
+
+    fetch(`/api/impacto/${qrCode}`)
+
+      .then(response => response.json())
+
+      .then(data => {
+
+        // Exibir os resultados
+
+        document.getElementById('tipoPlastico').textContent = data.tipo_plastico;
+
+        document.getElementById('impactoAmbiental').textContent = data.impacto_ambiental;
+
+        document.getElementById('recomendacao').textContent = data.recomendacao;
+
+        document.getElementById('resultado').classList.remove('hidden');
+
+      })
+
+      .catch(err => console.log(err));
+
+  });
+
+</script>
 
   <script>
 
