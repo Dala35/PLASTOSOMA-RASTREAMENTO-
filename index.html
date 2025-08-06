@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+
+<html lang="pt">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <title>Plastosoma - Rastreamento</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.1.2/dist/tailwind.min.css" rel="stylesheet">
+
+</head>
+
+<body>
+
+    <div class="container mx-auto mt-8">
+
+        <h1 class="text-xl font-bold">Rastreio de Embalagem</h1>
+
+        <form id="searchForm">
+
+            <input type="text" id="qrCode" class="input" placeholder="Digite o QR Code">
+
+            <button type="submit" class="btn">Buscar</button>
+
+        </form>
+
+        <div id="resultado"></div>
+
+    </div>
+
+    <script>
+
+        document.getElementById('searchForm').addEventListener('submit', function(event) {
+
+            event.preventDefault();
+
+            const qrCode = document.getElementById('qrCode').value;
+
+            fetch(`/api/embalagens/${qrCode}`)
+
+                .then(response => response.json())
+
+                .then(data => {
+
+                    document.getElementById('resultado').innerHTML = `
+
+                        <p>Status: ${data.status_atual}</p>
+
+                        <p>Impacto estimado: ${data.impacto}</p>
+
+                    `;
+
+                });
+
+        });
+
+    </script>
+
+</body>
+
+</html>
+
