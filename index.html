@@ -1,62 +1,114 @@
 <!DOCTYPE html>
 
-<html lang="pt">
+<html lang="pt-br">
 
 <head>
 
-    <meta charset="UTF-8">
+  <meta charset="UTF-8">
 
-    <title>Plastosoma - Rastreamento</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.1.2/dist/tailwind.min.css" rel="stylesheet">
+  <title>Plastosoma - Impacto Ambiental</title>
+
+  <script src="https://cdn.jsdelivr.net/npm/tailwindcss@2.1.2/dist/tailwind.min.js"></script>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 </head>
 
-<body>
+<body class="bg-gray-50">
 
-    <div class="container mx-auto mt-8">
+  <!-- Navbar -->
 
-        <h1 class="text-xl font-bold">Rastreio de Embalagem</h1>
+  <nav class="bg-blue-600 p-4">
 
-        <form id="searchForm">
+    <ul class="flex justify-around text-white">
 
-            <input type="text" id="qrCode" class="input" placeholder="Digite o QR Code">
+      <li><a href="/" class="font-semibold">Home</a></li>
 
-            <button type="submit" class="btn">Buscar</button>
+      <li><a href="/rastreamento" class="font-semibold">Rastreamento</a></li>
 
-        </form>
+      <li><a href="/impacto" class="font-semibold">Impacto Ambiental</a></li>
 
-        <div id="resultado"></div>
+    </ul>
+
+  </nav>
+
+
+
+  <!-- Hero Section -->
+
+  <section class="bg-blue-800 text-white py-20 text-center">
+
+    <h1 class="text-4xl font-bold">Bem-vindo ao Plastosoma</h1>
+
+    <p class="mt-4">Rastreamento e Previsão de Impacto Ambiental de Resíduos</p>
+
+  </section>
+
+
+
+  <!-- Gráfico de Impacto -->
+
+  <section class="p-10">
+
+    <h2 class="text-3xl font-semibold text-center">Impacto Ambiental das Embalagens</h2>
+
+    <div class="mt-8">
+
+      <canvas id="impactoChart"></canvas>
 
     </div>
 
-    <script>
+  </section>
 
-        document.getElementById('searchForm').addEventListener('submit', function(event) {
 
-            event.preventDefault();
 
-            const qrCode = document.getElementById('qrCode').value;
+  <script>
 
-            fetch(`/api/embalagens/${qrCode}`)
+    var ctx = document.getElementById('impactoChart').getContext('2d');
 
-                .then(response => response.json())
+    var impactoChart = new Chart(ctx, {
 
-                .then(data => {
+      type: 'bar',
 
-                    document.getElementById('resultado').innerHTML = `
+      data: {
 
-                        <p>Status: ${data.status_atual}</p>
+        labels: ['PET', 'PP', 'PE', 'PVC', 'HDPE'],
 
-                        <p>Impacto estimado: ${data.impacto}</p>
+        datasets: [{
 
-                    `;
+          label: 'Impacto Ambiental (em CO₂)',
 
-                });
+          data: [50, 40, 30, 60, 45],
 
-        });
+          backgroundColor: 'rgba(54, 162, 235, 0.2)',
 
-    </script>
+          borderColor: 'rgba(54, 162, 235, 1)',
+
+          borderWidth: 1
+
+        }]
+
+      },
+
+      options: {
+
+        scales: {
+
+          y: {
+
+            beginAtZero: true
+
+          }
+
+        }
+
+      }
+
+    });
+
+  </script>
 
 </body>
 
